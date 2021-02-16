@@ -1,6 +1,21 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #222222;
+}
+
+.navbar {
+    background-color: #FCA908;
+}
+
+    .navbar a {
+        font-size: 1.5em;
+        font-weight: 1000;
+        color: #222222;
+    }
+
+.container {
+    margin-left: 20%;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -25,13 +40,12 @@ textarea {
 
 .product-button {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 1000;
     font-size: 1.8em;
     background: white;
-
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    border-radius: 10px;
+    border-radius: 0px;
+    border: 5px solid #FCA908;
     width: 17em;
     height: 17em;
     padding: 0.7em;
@@ -41,46 +55,51 @@ textarea {
     -webkit-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out;
     text-decoration: none;
-    color: black;
+    color: #222222;
     display: inline-block;
     cursor: pointer;
-    text-shadow: 1px 1px 2px white;
+    position: relative;
 }
 
     .product-button:hover {
         width: 18em;
+        height: 18em;
     }
 
 .products-list form {
     display: inline-block;
-    margin: 3%;
+    margin: 4%;
     text-align: center;
 }
 
-.attributes-list span {
+
+.attributes-list {
+    bottom: 0;
+    right: 0;
+    position: absolute;
     text-align: center;
-    width: 100%;
     border-radius: 10px;
-    font-size: 0.7em;
+    font-size: 0.9em;
+    font-weight: 1000;
+    padding: 1.5%;
+    margin-top: 2%;
 }
 
 .dropdown {
-    width:300%;
-    font-size: 1.5em;
+    width: 200%;
 }
 
 .dropdown-menu {
-    background-color: gray;
-    color: black;
+    background-color: #FCA908;
     width: 100%;
 }
 
     .dropdown-menu a {
-        color: white;
+        color: #222222;
         margin-left: 5%;
         margin-bottom: 30%;
         font-size: 1.5em;
-        font-weight: 100;
+        font-weight: 1000;
         -moz-transition: all 0.2s ease-out;
         -o-transition: all 0.2s ease-out;
         -webkit-transition: all 0.2s ease-out;
@@ -92,3 +111,32 @@ textarea {
             font-size: 1.6em;
             text-decoration: none;
         }
+
+.cart-action {
+    width: 50%;
+    height: 30%;
+    background-color: green;
+    border-radius: 10px;
+    color: white;
+    margin-left: 30%;
+}
+
+    .cart-action a {
+        color: white;
+        text-decoration: none;
+    }
+
+#prices {
+    top: 0;
+    position: absolute;
+    font-size: 1em;
+    background-color: gray;
+    color: white;
+    border-radius: 10px;
+    padding: 2%;
+    margin-top: 2%;
+}
+
+#shop-name {
+    margin-left: 35%;
+}

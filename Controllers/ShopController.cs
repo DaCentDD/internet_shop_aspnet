@@ -69,5 +69,40 @@ namespace WebShop.Controllers
                 return PartialView();
             }
         }
+
+        public ActionResult AddToCartPartial(int productId)
+        {
+            if (Session["userName"] != null)
+            {
+                using (ShopDbDataContext db = new ShopDbDataContext())
+                {
+                    var cart = db.Carts.Where(c => c.UserId == (int)Session["userId"]).Where(c => c.ProductId == productId).FirstOrDefault();
+                    if (cart == null)
+                    {
+                        db.Carts.InsertOnSubmit(new Carts
+                        {
+                            UserId = (int)Session["userId"],
+                            ProductId = productId,
+                            Quantity = 1
+                        });
+                    }
+                    else
+                    {
+                        cart.Quantity += 1;
+
+                    }
+                    try
+                    {
+                        db.SubmitChanges();
+                        ViewBag.Result = "OK";
+                    }
+                    catch(Exception e)
+                    {
+                        ViewBag.Result = e;
+                    }
+                }
+            }
+            return PartialView();
+        }
     }
 }

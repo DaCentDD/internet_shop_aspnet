@@ -30,12 +30,21 @@ namespace WebShop.Models
 		
     #region Определения метода расширяемости
     partial void OnCreated();
+    partial void InsertAllNames(AllNames instance);
+    partial void UpdateAllNames(AllNames instance);
+    partial void DeleteAllNames(AllNames instance);
     partial void InsertApplicationUsers(ApplicationUsers instance);
     partial void UpdateApplicationUsers(ApplicationUsers instance);
     partial void DeleteApplicationUsers(ApplicationUsers instance);
     partial void InsertAttributes(Attributes instance);
     partial void UpdateAttributes(Attributes instance);
     partial void DeleteAttributes(Attributes instance);
+    partial void InsertAttributeValues(AttributeValues instance);
+    partial void UpdateAttributeValues(AttributeValues instance);
+    partial void DeleteAttributeValues(AttributeValues instance);
+    partial void InsertCarts(Carts instance);
+    partial void UpdateCarts(Carts instance);
+    partial void DeleteCarts(Carts instance);
     partial void InsertCategories(Categories instance);
     partial void UpdateCategories(Categories instance);
     partial void DeleteCategories(Categories instance);
@@ -45,12 +54,12 @@ namespace WebShop.Models
     partial void InsertOrders(Orders instance);
     partial void UpdateOrders(Orders instance);
     partial void DeleteOrders(Orders instance);
+    partial void InsertProductOrders(ProductOrders instance);
+    partial void UpdateProductOrders(ProductOrders instance);
+    partial void DeleteProductOrders(ProductOrders instance);
     partial void InsertProducts(Products instance);
     partial void UpdateProducts(Products instance);
     partial void DeleteProducts(Products instance);
-    partial void InsertAllNames(AllNames instance);
-    partial void UpdateAllNames(AllNames instance);
-    partial void DeleteAllNames(AllNames instance);
     #endregion
 		
 		public ShopDbDataContext() : 
@@ -81,6 +90,14 @@ namespace WebShop.Models
 				base(connection, mappingSource)
 		{
 			OnCreated();
+		}
+		
+		public System.Data.Linq.Table<AllNames> AllNames
+		{
+			get
+			{
+				return this.GetTable<AllNames>();
+			}
 		}
 		
 		public System.Data.Linq.Table<ApplicationUsers> ApplicationUsers
@@ -154,12 +171,90 @@ namespace WebShop.Models
 				return this.GetTable<Products>();
 			}
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AllNames")]
+	public partial class AllNames : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		public System.Data.Linq.Table<AllNames> AllNames
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _Name;
+		
+		private string _Value;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnValueChanging(string value);
+    partial void OnValueChanged();
+    #endregion
+		
+		public AllNames()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string Name
 		{
 			get
 			{
-				return this.GetTable<AllNames>();
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this.OnValueChanging(value);
+					this.SendPropertyChanging();
+					this._Value = value;
+					this.SendPropertyChanged("Value");
+					this.OnValueChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -185,6 +280,8 @@ namespace WebShop.Models
 		private string _Address;
 		
 		private bool _IsAdmin;
+		
+		private EntitySet<Carts> _Carts;
 		
 		private EntitySet<Orders> _Orders;
 		
@@ -212,6 +309,7 @@ namespace WebShop.Models
 		
 		public ApplicationUsers()
 		{
+			this._Carts = new EntitySet<Carts>(new Action<Carts>(this.attach_Carts), new Action<Carts>(this.detach_Carts));
 			this._Orders = new EntitySet<Orders>(new Action<Orders>(this.attach_Orders), new Action<Orders>(this.detach_Orders));
 			OnCreated();
 		}
@@ -376,6 +474,19 @@ namespace WebShop.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ApplicationUsers_Carts", Storage="_Carts", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<Carts> Carts
+		{
+			get
+			{
+				return this._Carts;
+			}
+			set
+			{
+				this._Carts.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ApplicationUsers_Orders", Storage="_Orders", ThisKey="Id", OtherKey="UserId")]
 		public EntitySet<Orders> Orders
 		{
@@ -409,6 +520,18 @@ namespace WebShop.Models
 			}
 		}
 		
+		private void attach_Carts(Carts entity)
+		{
+			this.SendPropertyChanging();
+			entity.ApplicationUsers = this;
+		}
+		
+		private void detach_Carts(Carts entity)
+		{
+			this.SendPropertyChanging();
+			entity.ApplicationUsers = null;
+		}
+		
 		private void attach_Orders(Orders entity)
 		{
 			this.SendPropertyChanging();
@@ -434,6 +557,8 @@ namespace WebShop.Models
 		
 		private string _Name;
 		
+		private EntitySet<AttributeValues> _AttributeValues;
+		
 		private EntityRef<Categories> _Categories;
 		
     #region Определения метода расширяемости
@@ -450,6 +575,7 @@ namespace WebShop.Models
 		
 		public Attributes()
 		{
+			this._AttributeValues = new EntitySet<AttributeValues>(new Action<AttributeValues>(this.attach_AttributeValues), new Action<AttributeValues>(this.detach_AttributeValues));
 			this._Categories = default(EntityRef<Categories>);
 			OnCreated();
 		}
@@ -518,6 +644,19 @@ namespace WebShop.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attributes_AttributeValues", Storage="_AttributeValues", ThisKey="Id", OtherKey="AttributeId")]
+		public EntitySet<AttributeValues> AttributeValues
+		{
+			get
+			{
+				return this._AttributeValues;
+			}
+			set
+			{
+				this._AttributeValues.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Categories_Attributes", Storage="_Categories", ThisKey="CategoryId", OtherKey="Id", IsForeignKey=true)]
 		public Categories Categories
 		{
@@ -571,11 +710,27 @@ namespace WebShop.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_AttributeValues(AttributeValues entity)
+		{
+			this.SendPropertyChanging();
+			entity.Attributes = this;
+		}
+		
+		private void detach_AttributeValues(AttributeValues entity)
+		{
+			this.SendPropertyChanging();
+			entity.Attributes = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AttributeValues")]
-	public partial class AttributeValues
+	public partial class AttributeValues : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
 		
 		private int _ProductId;
 		
@@ -583,8 +738,49 @@ namespace WebShop.Models
 		
 		private string _Value;
 		
+		private EntityRef<Attributes> _Attributes;
+		
+		private EntityRef<Products> _Products;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnProductIdChanging(int value);
+    partial void OnProductIdChanged();
+    partial void OnAttributeIdChanging(int value);
+    partial void OnAttributeIdChanged();
+    partial void OnValueChanging(string value);
+    partial void OnValueChanged();
+    #endregion
+		
 		public AttributeValues()
 		{
+			this._Attributes = default(EntityRef<Attributes>);
+			this._Products = default(EntityRef<Products>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductId", DbType="Int NOT NULL")]
@@ -598,7 +794,15 @@ namespace WebShop.Models
 			{
 				if ((this._ProductId != value))
 				{
+					if (this._Products.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProductIdChanging(value);
+					this.SendPropertyChanging();
 					this._ProductId = value;
+					this.SendPropertyChanged("ProductId");
+					this.OnProductIdChanged();
 				}
 			}
 		}
@@ -614,7 +818,15 @@ namespace WebShop.Models
 			{
 				if ((this._AttributeId != value))
 				{
+					if (this._Attributes.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAttributeIdChanging(value);
+					this.SendPropertyChanging();
 					this._AttributeId = value;
+					this.SendPropertyChanged("AttributeId");
+					this.OnAttributeIdChanged();
 				}
 			}
 		}
@@ -630,15 +842,111 @@ namespace WebShop.Models
 			{
 				if ((this._Value != value))
 				{
+					this.OnValueChanging(value);
+					this.SendPropertyChanging();
 					this._Value = value;
+					this.SendPropertyChanged("Value");
+					this.OnValueChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attributes_AttributeValues", Storage="_Attributes", ThisKey="AttributeId", OtherKey="Id", IsForeignKey=true)]
+		public Attributes Attributes
+		{
+			get
+			{
+				return this._Attributes.Entity;
+			}
+			set
+			{
+				Attributes previousValue = this._Attributes.Entity;
+				if (((previousValue != value) 
+							|| (this._Attributes.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Attributes.Entity = null;
+						previousValue.AttributeValues.Remove(this);
+					}
+					this._Attributes.Entity = value;
+					if ((value != null))
+					{
+						value.AttributeValues.Add(this);
+						this._AttributeId = value.Id;
+					}
+					else
+					{
+						this._AttributeId = default(int);
+					}
+					this.SendPropertyChanged("Attributes");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_AttributeValues", Storage="_Products", ThisKey="ProductId", OtherKey="Id", IsForeignKey=true)]
+		public Products Products
+		{
+			get
+			{
+				return this._Products.Entity;
+			}
+			set
+			{
+				Products previousValue = this._Products.Entity;
+				if (((previousValue != value) 
+							|| (this._Products.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Products.Entity = null;
+						previousValue.AttributeValues.Remove(this);
+					}
+					this._Products.Entity = value;
+					if ((value != null))
+					{
+						value.AttributeValues.Add(this);
+						this._ProductId = value.Id;
+					}
+					else
+					{
+						this._ProductId = default(int);
+					}
+					this.SendPropertyChanged("Products");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Carts")]
-	public partial class Carts
+	public partial class Carts : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
 		
 		private int _UserId;
 		
@@ -646,8 +954,49 @@ namespace WebShop.Models
 		
 		private int _Quantity;
 		
+		private EntityRef<ApplicationUsers> _ApplicationUsers;
+		
+		private EntityRef<Products> _Products;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnProductIdChanging(int value);
+    partial void OnProductIdChanged();
+    partial void OnQuantityChanging(int value);
+    partial void OnQuantityChanged();
+    #endregion
+		
 		public Carts()
 		{
+			this._ApplicationUsers = default(EntityRef<ApplicationUsers>);
+			this._Products = default(EntityRef<Products>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
@@ -661,7 +1010,15 @@ namespace WebShop.Models
 			{
 				if ((this._UserId != value))
 				{
+					if (this._ApplicationUsers.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
 					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
 				}
 			}
 		}
@@ -677,7 +1034,15 @@ namespace WebShop.Models
 			{
 				if ((this._ProductId != value))
 				{
+					if (this._Products.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProductIdChanging(value);
+					this.SendPropertyChanging();
 					this._ProductId = value;
+					this.SendPropertyChanged("ProductId");
+					this.OnProductIdChanged();
 				}
 			}
 		}
@@ -693,8 +1058,100 @@ namespace WebShop.Models
 			{
 				if ((this._Quantity != value))
 				{
+					this.OnQuantityChanging(value);
+					this.SendPropertyChanging();
 					this._Quantity = value;
+					this.SendPropertyChanged("Quantity");
+					this.OnQuantityChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ApplicationUsers_Carts", Storage="_ApplicationUsers", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
+		public ApplicationUsers ApplicationUsers
+		{
+			get
+			{
+				return this._ApplicationUsers.Entity;
+			}
+			set
+			{
+				ApplicationUsers previousValue = this._ApplicationUsers.Entity;
+				if (((previousValue != value) 
+							|| (this._ApplicationUsers.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ApplicationUsers.Entity = null;
+						previousValue.Carts.Remove(this);
+					}
+					this._ApplicationUsers.Entity = value;
+					if ((value != null))
+					{
+						value.Carts.Add(this);
+						this._UserId = value.Id;
+					}
+					else
+					{
+						this._UserId = default(int);
+					}
+					this.SendPropertyChanged("ApplicationUsers");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_Carts", Storage="_Products", ThisKey="ProductId", OtherKey="Id", IsForeignKey=true)]
+		public Products Products
+		{
+			get
+			{
+				return this._Products.Entity;
+			}
+			set
+			{
+				Products previousValue = this._Products.Entity;
+				if (((previousValue != value) 
+							|| (this._Products.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Products.Entity = null;
+						previousValue.Carts.Remove(this);
+					}
+					this._Products.Entity = value;
+					if ((value != null))
+					{
+						value.Carts.Add(this);
+						this._ProductId = value.Id;
+					}
+					else
+					{
+						this._ProductId = default(int);
+					}
+					this.SendPropertyChanged("Products");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -973,6 +1430,8 @@ namespace WebShop.Models
 		
 		private System.DateTime _DateOfOrder;
 		
+		private EntitySet<ProductOrders> _ProductOrders;
+		
 		private EntityRef<ApplicationUsers> _ApplicationUsers;
 		
     #region Определения метода расширяемости
@@ -995,6 +1454,7 @@ namespace WebShop.Models
 		
 		public Orders()
 		{
+			this._ProductOrders = new EntitySet<ProductOrders>(new Action<ProductOrders>(this.attach_ProductOrders), new Action<ProductOrders>(this.detach_ProductOrders));
 			this._ApplicationUsers = default(EntityRef<ApplicationUsers>);
 			OnCreated();
 		}
@@ -1123,6 +1583,19 @@ namespace WebShop.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Orders_ProductOrders", Storage="_ProductOrders", ThisKey="Id", OtherKey="OrderId")]
+		public EntitySet<ProductOrders> ProductOrders
+		{
+			get
+			{
+				return this._ProductOrders;
+			}
+			set
+			{
+				this._ProductOrders.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ApplicationUsers_Orders", Storage="_ApplicationUsers", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
 		public ApplicationUsers ApplicationUsers
 		{
@@ -1176,11 +1649,27 @@ namespace WebShop.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_ProductOrders(ProductOrders entity)
+		{
+			this.SendPropertyChanging();
+			entity.Orders = this;
+		}
+		
+		private void detach_ProductOrders(ProductOrders entity)
+		{
+			this.SendPropertyChanging();
+			entity.Orders = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ProductOrders")]
-	public partial class ProductOrders
+	public partial class ProductOrders : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
 		
 		private int _OrderId;
 		
@@ -1188,8 +1677,49 @@ namespace WebShop.Models
 		
 		private int _Quantity;
 		
+		private EntityRef<Orders> _Orders;
+		
+		private EntityRef<Products> _Products;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnOrderIdChanging(int value);
+    partial void OnOrderIdChanged();
+    partial void OnProductIdChanging(int value);
+    partial void OnProductIdChanged();
+    partial void OnQuantityChanging(int value);
+    partial void OnQuantityChanged();
+    #endregion
+		
 		public ProductOrders()
 		{
+			this._Orders = default(EntityRef<Orders>);
+			this._Products = default(EntityRef<Products>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrderId", DbType="Int NOT NULL")]
@@ -1203,7 +1733,15 @@ namespace WebShop.Models
 			{
 				if ((this._OrderId != value))
 				{
+					if (this._Orders.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrderIdChanging(value);
+					this.SendPropertyChanging();
 					this._OrderId = value;
+					this.SendPropertyChanged("OrderId");
+					this.OnOrderIdChanged();
 				}
 			}
 		}
@@ -1219,7 +1757,15 @@ namespace WebShop.Models
 			{
 				if ((this._ProductId != value))
 				{
+					if (this._Products.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProductIdChanging(value);
+					this.SendPropertyChanging();
 					this._ProductId = value;
+					this.SendPropertyChanged("ProductId");
+					this.OnProductIdChanged();
 				}
 			}
 		}
@@ -1235,8 +1781,100 @@ namespace WebShop.Models
 			{
 				if ((this._Quantity != value))
 				{
+					this.OnQuantityChanging(value);
+					this.SendPropertyChanging();
 					this._Quantity = value;
+					this.SendPropertyChanged("Quantity");
+					this.OnQuantityChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Orders_ProductOrders", Storage="_Orders", ThisKey="OrderId", OtherKey="Id", IsForeignKey=true)]
+		public Orders Orders
+		{
+			get
+			{
+				return this._Orders.Entity;
+			}
+			set
+			{
+				Orders previousValue = this._Orders.Entity;
+				if (((previousValue != value) 
+							|| (this._Orders.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Orders.Entity = null;
+						previousValue.ProductOrders.Remove(this);
+					}
+					this._Orders.Entity = value;
+					if ((value != null))
+					{
+						value.ProductOrders.Add(this);
+						this._OrderId = value.Id;
+					}
+					else
+					{
+						this._OrderId = default(int);
+					}
+					this.SendPropertyChanged("Orders");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_ProductOrders", Storage="_Products", ThisKey="ProductId", OtherKey="Id", IsForeignKey=true)]
+		public Products Products
+		{
+			get
+			{
+				return this._Products.Entity;
+			}
+			set
+			{
+				Products previousValue = this._Products.Entity;
+				if (((previousValue != value) 
+							|| (this._Products.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Products.Entity = null;
+						previousValue.ProductOrders.Remove(this);
+					}
+					this._Products.Entity = value;
+					if ((value != null))
+					{
+						value.ProductOrders.Add(this);
+						this._ProductId = value.Id;
+					}
+					else
+					{
+						this._ProductId = default(int);
+					}
+					this.SendPropertyChanged("Products");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -1258,6 +1896,12 @@ namespace WebShop.Models
 		private double _Price;
 		
 		private string _Image;
+		
+		private EntitySet<AttributeValues> _AttributeValues;
+		
+		private EntitySet<Carts> _Carts;
+		
+		private EntitySet<ProductOrders> _ProductOrders;
 		
 		private EntityRef<Categories> _Categories;
 		
@@ -1283,6 +1927,9 @@ namespace WebShop.Models
 		
 		public Products()
 		{
+			this._AttributeValues = new EntitySet<AttributeValues>(new Action<AttributeValues>(this.attach_AttributeValues), new Action<AttributeValues>(this.detach_AttributeValues));
+			this._Carts = new EntitySet<Carts>(new Action<Carts>(this.attach_Carts), new Action<Carts>(this.detach_Carts));
+			this._ProductOrders = new EntitySet<ProductOrders>(new Action<ProductOrders>(this.attach_ProductOrders), new Action<ProductOrders>(this.detach_ProductOrders));
 			this._Categories = default(EntityRef<Categories>);
 			this._Manufacturers = default(EntityRef<Manufacturers>);
 			OnCreated();
@@ -1416,6 +2063,45 @@ namespace WebShop.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_AttributeValues", Storage="_AttributeValues", ThisKey="Id", OtherKey="ProductId")]
+		public EntitySet<AttributeValues> AttributeValues
+		{
+			get
+			{
+				return this._AttributeValues;
+			}
+			set
+			{
+				this._AttributeValues.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_Carts", Storage="_Carts", ThisKey="Id", OtherKey="ProductId")]
+		public EntitySet<Carts> Carts
+		{
+			get
+			{
+				return this._Carts;
+			}
+			set
+			{
+				this._Carts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_ProductOrders", Storage="_ProductOrders", ThisKey="Id", OtherKey="ProductId")]
+		public EntitySet<ProductOrders> ProductOrders
+		{
+			get
+			{
+				return this._ProductOrders;
+			}
+			set
+			{
+				this._ProductOrders.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Categories_Products", Storage="_Categories", ThisKey="CategoryId", OtherKey="Id", IsForeignKey=true)]
 		public Categories Categories
 		{
@@ -1503,91 +2189,41 @@ namespace WebShop.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AllNames")]
-	public partial class AllNames : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _Name;
-		
-		private string _Value;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnValueChanging(string value);
-    partial void OnValueChanged();
-    #endregion
-		
-		public AllNames()
+		private void attach_AttributeValues(AttributeValues entity)
 		{
-			OnCreated();
+			this.SendPropertyChanging();
+			entity.Products = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string Name
+		private void detach_AttributeValues(AttributeValues entity)
 		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
+			this.SendPropertyChanging();
+			entity.Products = null;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Value
+		private void attach_Carts(Carts entity)
 		{
-			get
-			{
-				return this._Value;
-			}
-			set
-			{
-				if ((this._Value != value))
-				{
-					this.OnValueChanging(value);
-					this.SendPropertyChanging();
-					this._Value = value;
-					this.SendPropertyChanged("Value");
-					this.OnValueChanged();
-				}
-			}
+			this.SendPropertyChanging();
+			entity.Products = this;
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
+		private void detach_Carts(Carts entity)
 		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
+			this.SendPropertyChanging();
+			entity.Products = null;
 		}
 		
-		protected virtual void SendPropertyChanged(String propertyName)
+		private void attach_ProductOrders(ProductOrders entity)
 		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			this.SendPropertyChanging();
+			entity.Products = this;
+		}
+		
+		private void detach_ProductOrders(ProductOrders entity)
+		{
+			this.SendPropertyChanging();
+			entity.Products = null;
 		}
 	}
 }

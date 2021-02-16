@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ShopDB" Class="ShopDbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=DCPC;Initial Catalog=ShopDB;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ShopDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.AllNames" Member="AllNames">
+    <Type Name="AllNames">
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Table Name="dbo.ApplicationUsers" Member="ApplicationUsers">
     <Type Name="ApplicationUsers">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -25,6 +31,7 @@
   </Table>
   <Table Name="dbo.AttributeValues" Member="AttributeValues">
     <Type Name="AttributeValues">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AttributeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
@@ -34,6 +41,7 @@
   </Table>
   <Table Name="dbo.Carts" Member="Carts">
     <Type Name="Carts">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -70,6 +78,7 @@
   </Table>
   <Table Name="dbo.ProductOrders" Member="ProductOrders">
     <Type Name="ProductOrders">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="OrderId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -90,12 +99,6 @@
       <Association Name="Products_ProductOrders" Member="ProductOrders" ThisKey="Id" OtherKey="ProductId" Type="ProductOrders" />
       <Association Name="Categories_Products" Member="Categories" ThisKey="CategoryId" OtherKey="Id" Type="Categories" IsForeignKey="true" />
       <Association Name="Manufacturers_Products" Member="Manufacturers" ThisKey="ManufacturerId" OtherKey="Id" Type="Manufacturers" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.AllNames" Member="AllNames">
-    <Type Name="AllNames">
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

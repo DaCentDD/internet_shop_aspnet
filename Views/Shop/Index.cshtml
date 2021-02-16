@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Главная";
 }
 
 <div class="container">
@@ -11,20 +11,29 @@
                 {
                     @Html.AntiForgeryToken()
                     <button type="submit" class="product-button">
-                        <img src="@Url.Content($"~/Content/Img/{product.Image}")" />
-                        <div class="attributes-list">
-                            <span>@Model.GetManufacturer(product.ManufacturerId)</span>
-                            <br />
-                            <span>@product.Name</span>
-
-                            <br />
+                        <div id="prices">
+                            @product.Price руб.
                         </div>
+                        <div class="attributes-list">
+                            @Model.GetManufacturer(product.ManufacturerId) @product.Name
+                        </div>
+                        <img src="@Url.Content($"~/Content/Img/{product.Image}")" />
                     </button>
                     <br />
-                    @Ajax.ActionLink("Добавить в корзину", "AddToCart", new { productId = product.Id }, new AjaxOptions() { HttpMethod = "Post" });
-                    <span>Цена: @product.Price</span>
+
+                    if (Session["userName"] != null)
+                    {
+                        <div id="@product.Id" class="cart-action">
+                            @Ajax.ActionLink("ДОБАВИТЬ В КОРЗИНУ", "AddToCartPartial", new { productId = product.Id }, new AjaxOptions { UpdateTargetId = $"{product.Id}" })
+                        </div>
+                    }
                 }
             }
         }
     </div>
 </div>
+
+@section scripts{
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.min.js"></script>
+}
