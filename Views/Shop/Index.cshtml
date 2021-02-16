@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <div class="products-list">
+        @{
+            foreach (var product in Model.Products)
+            {
+                using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="product-button">
+                        <img src="@Url.Content($"~/Content/Img/{product.Image}")" />
+                        <div class="attributes-list">
+                            <span>@Model.GetManufacturer(product.ManufacturerId)</span>
+                            <br />
+                            <span>@product.Name</span>
+
+                            <br />
+                        </div>
+                    </button>
+                    <br />
+                    @Ajax.ActionLink("Добавить в корзину", "AddToCart", new { productId = product.Id }, new AjaxOptions() { HttpMethod = "Post" });
+                    <span>Цена: @product.Price</span>
+                }
+            }
+        }
+    </div>
+</div>

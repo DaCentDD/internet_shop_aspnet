@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ShopDB" Class="ShopDbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DCPC;Initial Catalog=ShopDB;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ShopDBConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.ApplicationUsers" Member="ApplicationUsers">
+    <Type Name="ApplicationUsers">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsAdmin" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="ApplicationUsers_Carts" Member="Carts" ThisKey="Id" OtherKey="UserId" Type="Carts" />
+      <Association Name="ApplicationUsers_Orders" Member="Orders" ThisKey="Id" OtherKey="UserId" Type="Orders" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Attributes" Member="Attributes">
+    <Type Name="Attributes">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Attributes_AttributeValues" Member="AttributeValues" ThisKey="Id" OtherKey="AttributeId" Type="AttributeValues" />
+      <Association Name="Categories_Attributes" Member="Categories" ThisKey="CategoryId" OtherKey="Id" Type="Categories" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AttributeValues" Member="AttributeValues">
+    <Type Name="AttributeValues">
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AttributeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Attributes_AttributeValues" Member="Attributes" ThisKey="AttributeId" OtherKey="Id" Type="Attributes" IsForeignKey="true" />
+      <Association Name="Products_AttributeValues" Member="Products" ThisKey="ProductId" OtherKey="Id" Type="Products" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Carts" Member="Carts">
+    <Type Name="Carts">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="ApplicationUsers_Carts" Member="ApplicationUsers" ThisKey="UserId" OtherKey="Id" Type="ApplicationUsers" IsForeignKey="true" />
+      <Association Name="Products_Carts" Member="Products" ThisKey="ProductId" OtherKey="Id" Type="Products" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Categories" Member="Categories">
+    <Type Name="Categories">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Categories_Attributes" Member="Attributes" ThisKey="Id" OtherKey="CategoryId" Type="Attributes" />
+      <Association Name="Categories_Products" Member="Products" ThisKey="Id" OtherKey="CategoryId" Type="Products" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Manufacturers" Member="Manufacturers">
+    <Type Name="Manufacturers">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Manufacturers_Products" Member="Products" ThisKey="Id" OtherKey="ManufacturerId" Type="Products" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Orders" Member="Orders">
+    <Type Name="Orders">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="DateOfOrder" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Orders_ProductOrders" Member="ProductOrders" ThisKey="Id" OtherKey="OrderId" Type="ProductOrders" />
+      <Association Name="ApplicationUsers_Orders" Member="ApplicationUsers" ThisKey="UserId" OtherKey="Id" Type="ApplicationUsers" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductOrders" Member="ProductOrders">
+    <Type Name="ProductOrders">
+      <Column Name="OrderId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Orders_ProductOrders" Member="Orders" ThisKey="OrderId" OtherKey="Id" Type="Orders" IsForeignKey="true" />
+      <Association Name="Products_ProductOrders" Member="Products" ThisKey="ProductId" OtherKey="Id" Type="Products" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Products" Member="Products">
+    <Type Name="Products">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ManufacturerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Image" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Products_AttributeValues" Member="AttributeValues" ThisKey="Id" OtherKey="ProductId" Type="AttributeValues" />
+      <Association Name="Products_Carts" Member="Carts" ThisKey="Id" OtherKey="ProductId" Type="Carts" />
+      <Association Name="Products_ProductOrders" Member="ProductOrders" ThisKey="Id" OtherKey="ProductId" Type="ProductOrders" />
+      <Association Name="Categories_Products" Member="Categories" ThisKey="CategoryId" OtherKey="Id" Type="Categories" IsForeignKey="true" />
+      <Association Name="Manufacturers_Products" Member="Manufacturers" ThisKey="ManufacturerId" OtherKey="Id" Type="Manufacturers" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AllNames" Member="AllNames">
+    <Type Name="AllNames">
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

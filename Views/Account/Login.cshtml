@@ -1,0 +1,31 @@
+﻿@model WebShop.ViewModels.LoginUserViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        Имя пользователя*
+        <div>
+            @Html.EditorFor(model => model.UserName)
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+    </div>
+    <div>
+        Пароль*
+        <div>
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+    </div>
+    <div>
+        <div>
+            <input type="submit" value="Войти" class="btn btn-primary" />
+        </div>
+    </div>
+}

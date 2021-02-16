@@ -1,0 +1,7 @@
+﻿@{ 
+    foreach (var category in ViewBag.Categories)
+    {
+        @Html.ActionLink((string)category.Name, "Category", "Shop", new { id = (int)category.Id}, new { @class = "dropdown-item" })
+        <br />
+    }
+}

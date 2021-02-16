@@ -1,0 +1,94 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.product-button {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 1000;
+    font-size: 1.8em;
+    background: white;
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 10px;
+    width: 17em;
+    height: 17em;
+    padding: 0.7em;
+    margin-bottom: 2%;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px white;
+}
+
+    .product-button:hover {
+        width: 18em;
+    }
+
+.products-list form {
+    display: inline-block;
+    margin: 3%;
+    text-align: center;
+}
+
+.attributes-list span {
+    text-align: center;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 0.7em;
+}
+
+.dropdown {
+    width:300%;
+    font-size: 1.5em;
+}
+
+.dropdown-menu {
+    background-color: gray;
+    color: black;
+    width: 100%;
+}
+
+    .dropdown-menu a {
+        color: white;
+        margin-left: 5%;
+        margin-bottom: 30%;
+        font-size: 1.5em;
+        font-weight: 100;
+        -moz-transition: all 0.2s ease-out;
+        -o-transition: all 0.2s ease-out;
+        -webkit-transition: all 0.2s ease-out;
+        transition: all 0.2s ease-out;
+    }
+
+        .dropdown-menu a:hover {
+            color: white;
+            font-size: 1.6em;
+            text-decoration: none;
+        }

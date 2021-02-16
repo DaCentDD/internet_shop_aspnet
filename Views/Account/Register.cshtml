@@ -1,0 +1,59 @@
+﻿@model WebShop.ViewModels.RegisterUserViewModel
+
+@{
+    ViewBag.Title = "Регистрация";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+        Имя пользователя*
+        <div>
+            @Html.EditorFor(model => model.UserName)
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+    </div>
+    <div>
+        Пароль*
+        <div>
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+    </div>
+    <div>
+        Повторите пароль*
+        <div>
+            @Html.EditorFor(model => model.PasswordConfirm)
+            @Html.ValidationMessageFor(model => model.PasswordConfirm)
+        </div>
+    </div>
+    <div>
+        Электронная почта*
+        <div>
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+    </div>
+    <div>
+        Номер телефона в формате +(code)9999999999*
+        <div>
+            @Html.EditorFor(model => model.PhoneNumber)
+            @Html.ValidationMessageFor(model => model.PhoneNumber)
+        </div>
+    </div>
+    <div>
+        Адрес доставки*
+        <div>
+            @Html.EditorFor(model => model.Address)
+            @Html.ValidationMessageFor(model => model.Address)
+        </div>
+    </div>
+    <div>
+        <div>
+            <input type="submit" value="Зарегистрировать" class="btn btn-primary" />
+        </div>
+    </div>
+}
