@@ -204,8 +204,10 @@
       <DependentUpon>ShopDb.dbml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\LoginUserViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\RegisterUserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -257,14 +259,15 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shop\About.cshtml" />
-    <Content Include="Views\Shop\Contact.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shop\GetShopNamePartial.cshtml" />
     <Content Include="Views\Shop\GetListOfCategoriesPartial.cshtml" />
     <Content Include="Views\Shop\AddToCartPartial.cshtml" />
+    <Content Include="Views\Shop\Category.cshtml" />
+    <Content Include="Views\Shop\Product.cshtml" />
+    <Content Include="Views\Shop\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

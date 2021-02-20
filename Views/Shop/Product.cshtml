@@ -1,0 +1,62 @@
+﻿@model WebShop.ViewModels.ProductViewModel
+
+@{
+    ViewBag.Title = Model.Product.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="filter-bar">
+    <div class="product-attrs">
+        Производитель:
+        @Model.Manufacturer.Name
+    </div>
+    <div class="product-attrs">
+        Наименование:
+        @Model.Product.Name
+    </div>
+    <div class="product-attrs">
+        Категория:
+        @Model.Category.Name
+    </div>
+    <div class="product-attrs">
+        <div class="product-attrs">
+            Характеристики:
+            <br />
+            <br />
+            @{
+                foreach (var attr in Model.Attributes)
+                {
+                    <pre>@attr.Name:  @Model.AttributeValues.First(av => av.AttributeId == attr.Id).Value</pre>
+                    <br />
+                }
+            }
+        </div>
+
+
+    </div>
+</div>
+<div class="product">
+    <img src="@Url.Content($"~/Content/Img/{Model.Product.Image}")" />
+    <div class="price-and-carts">
+        <div style="font-size: 2em; margin-bottom: 20%; float: right;">
+            @Model.Product.Price руб.
+        </div>
+        @{
+            if (Session["userName"] != null)
+            {
+                <div id="@Model.Product.Id" class="product-in-cart">
+                    @Ajax.ActionLink("ДОБАВИТЬ В КОРЗИНУ", "AddToCartPartial", new { productId = Model.Product.Id }, new AjaxOptions { UpdateTargetId = $"{Model.Product.Id}" })
+                </div>
+            }
+            else
+            {
+                <span>Авторизуйтесь, чтобы купить</span>
+            }
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.min.js"></script>
+}

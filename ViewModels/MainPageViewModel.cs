@@ -11,6 +11,7 @@ namespace WebShop.ViewModels
         public IEnumerable<Categories> Categories { get; set; }
         public IEnumerable<Products> Products { get; set; }
         public IEnumerable<Attributes> Attributes { get; set; }
+        public IEnumerable<AttributeValues> AttributeValues { get; set; }
         public IEnumerable<Manufacturers> Manufacturers { get; set; }
 
         public string GetManufacturer(int ManufacturerId)

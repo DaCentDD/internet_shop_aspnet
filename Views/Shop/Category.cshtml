@@ -1,18 +1,21 @@
-﻿@{
-    ViewBag.Title = "Главная";
+﻿@model WebShop.ViewModels.MainPageViewModel
+
+@{
+    ViewBag.Title = ViewBag.categoryName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="filter-bar">
     <div class="filter-border">
-        @using (Html.BeginForm("Index", "Shop", FormMethod.Get))
+        @using (Html.BeginForm("Category", "Shop", FormMethod.Get))
         {
             @Html.AntiForgeryToken()
-            <input type="text" name="search" class="form-control" value="@ViewBag.search" />
+            <input type="text" name="search" class="form-control" value="@ViewBag.search"/>
             <button type="submit" class="btn btn-info"><i class="fas fa-search"></i></button>
-
         }
-
+        <hr />
         <div class="filtering">
-            @using (Html.BeginForm("Index", "Shop", FormMethod.Get))
+            @using (Html.BeginForm("Category", "Shop", FormMethod.Get))
             {
                 @Html.AntiForgeryToken()
                 <label>Сортировка</label>
@@ -36,6 +39,40 @@
                 <label>Цена</label>
                 <input id="price" name="price" type="number" placeholder="От" />
                 <input id="price" name="price" type="number" placeholder="До" />
+                for (int i = 0; i < Model.Attributes.Count(); i++)
+                {
+                    var currentAttributeValue = Model.AttributeValues.First(
+                        av => av.AttributeId == Model.Attributes.ElementAt(i).Id); // Берем объект значений атрибута для текущего атрибута
+                    if (int.TryParse(currentAttributeValue.Value, out _))  // Если это число, то берем стандартные "от" и "до"
+                    {
+                        <label>@Model.Attributes.ElementAt(i).Name</label>
+                        var inputName = $"{Model.Attributes.ElementAt(i).Id}";
+                        <input id="@inputName" name="@inputName" type="number" placeholder="От" />
+                        <input id="@inputName" name="@inputName" type="number" placeholder="До" />
+                    }
+                    else  // Если это строка, то выводим все допустимые значения
+                    {
+                        HashSet<string> allUniqueValues = new HashSet<string>();
+                        var allValuesOfAttribute = Model.AttributeValues.Where(av => av.AttributeId == Model.Attributes.ElementAt(i).Id).ToList();
+                        foreach (var av in allValuesOfAttribute)
+                        {
+                            allUniqueValues.Add(av.Value);
+                        }
+                        <div class="checkbox-input">
+                            <label>@Model.Attributes.ElementAt(i).Name</label>
+                            @{
+                                var inputName = $"{Model.Attributes.ElementAt(i).Id}";
+                                foreach (var value in allUniqueValues)
+                                {
+                                    <input type="checkbox" id="@inputName" name="@inputName" value="@value" />
+                                    @value
+                                    <br />
+                                }
+                            }
+                        </div>
+                    }
+
+                }
                 <button type="submit" class="btn btn-info">Фильтр</button>
             }
         </div>
@@ -77,3 +114,4 @@
 @section scripts{
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.min.js"></script>
 }
+

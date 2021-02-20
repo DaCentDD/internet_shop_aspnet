@@ -1,0 +1,36 @@
+﻿@model WebShop.ViewModels.CartViewModel
+
+@{
+    ViewBag.Title = "Покупки";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="cart-div">
+    <table>
+        <caption style="font-size: 2em;">Ваш заказ</caption>
+        <tr>
+            <td>Производитель</td>
+            <td>Наименование</td>
+            <td>Количество</td>
+            <td>Цена</td>
+            <td>Сумма</td>
+        </tr>
+
+        @{
+            foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@Model.Manufacturers.First(m => m.Id == product.ManufacturerId).Name</td>
+                    <td>@product.Name</td>
+                    <td>@Model.Cart.First(c => c.ProductId == product.Id).Quantity</td>
+                    <td>@product.Price</td>
+                    @{ 
+                        var sum = product.Price * Model.Cart.First(c => c.ProductId == product.Id).Quantity;
+                    }
+                    <td>@sum</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
