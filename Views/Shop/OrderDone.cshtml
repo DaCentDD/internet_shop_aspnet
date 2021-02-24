@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "OrderDone";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="order-done">
+    Благодарим за заказ! Вы можете отслеживать его в своем личном кабинете.
+    <br />
+    @Html.ActionLink("На главную", "Index", "Shop", new { @class = "btn btn-primary"})
+</div>
+

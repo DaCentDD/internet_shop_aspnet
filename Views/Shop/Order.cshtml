@@ -1,0 +1,47 @@
+﻿@model WebShop.ViewModels.OrderViewModel
+
+@{
+    ViewBag.Title = "Заказ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="order-div">
+    @using (Html.BeginForm("Order", "Shop", null, FormMethod.Post, new { @class = "auth-fields" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.UserId);
+        <div class="auth-element">
+            Имя пользователя*
+            <div>
+                @Html.EditorFor(model => model.User.UserName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            </div>
+        </div>
+        <div class="auth-element">
+            Адрес доставки*
+            <div>
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address)
+            </div>
+        </div>
+        <div class="auth-element">
+            Номер телефона*
+            <div>
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Phone)
+            </div>
+        </div>
+        foreach (var product in Model.ProductsToBuy)
+        {
+            <input class="quantity" type="hidden" name="ProductsToBuy[@product.Key]" value="@product.Value" />
+        }
+        <div class="order-and-price">
+            <button type="submit" class="btn btn-primary">Заказать</button>
+            <div id="price-final">@Model.Price руб.</div>
+            @Html.HiddenFor(model => model.Price);
+        </div>
+
+    }
+</div>
+
+

@@ -1,0 +1,54 @@
+﻿@model WebShop.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="user-div">
+    <table>
+        <caption>Здравствуйте, @Model.User.UserName</caption>
+        <tr>
+            <td>Электронная почта:</td>
+            <td>@Model.User.Email</td>
+        </tr>
+        <tr>
+            <td>Номер телефона:</td>
+            <td>@Model.User.PhoneNumber</td>
+        </tr>
+        <tr>
+            <td>Адрес доставки:</td>
+            <td>@Model.User.Address</td>
+        </tr>
+    </table>
+    <table>
+        <caption>Ваши заказы:</caption>
+        @{
+            if (Model.Orders != null)
+            {
+                <tr>
+                    <td>Номер заказа</td>
+                    <td>Сумма заказа</td>
+                    <td>Дата оформления</td>
+                    <td></td>
+                </tr>
+                foreach (var order in Model.Orders)
+                {
+                    <tr>
+                        <td>@order.Id.ToString()</td>
+                        <td>@order.Price.ToString()</td>
+                        <td>@order.DateOfOrder.ToString()</td>
+                        <td>@Html.ActionLink("Перейти", "Order", "Shop", new { id = order.Id }, new { @class = "btn btn-to-order" })</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>Пока ни одного</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+

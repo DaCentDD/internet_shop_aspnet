@@ -42,7 +42,7 @@ namespace WebShop.Controllers
                             .Where(p => manufacturers.Contains(p.ManufacturerId.ToString()));
                     }
                 }
-                
+
                 switch (order)
                 {
                     case "byName":
@@ -76,8 +76,7 @@ namespace WebShop.Controllers
 
             return View(mainPageViewModel);
         }
-
-        public ActionResult Category(int? id, string search, string[] manufacturers, string order = "byName")  // Страница категории
+        public ActionResult Category(int? id, string search, string[] manufacturers, string order = "byName", params string[][] attrs)  // Страница категории
         {
             if (id == null)
                 return Redirect("/Shop/Index");
@@ -225,7 +224,7 @@ namespace WebShop.Controllers
                 return HttpNotFound();
             return View(productViewModel);
         }
-       
+
         public ActionResult Cart()
         {
             CartViewModel cartViewModel = new CartViewModel();
@@ -245,7 +244,73 @@ namespace WebShop.Controllers
             return View(cartViewModel);
         }
 
-        public ActionResult GetListOfCategoriesPartial()
+        public ActionResult Order(int? id) //TODO
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Order(CartViewModel cartViewModel)
+        {
+            if (Session["userId"] == null)
+                return Redirect("/Account/Login/");
+            OrderViewModel orderViewModel = new OrderViewModel();
+            if (cartViewModel.ProductsToBuy == null)
+            {
+                return Redirect("/shop/");
+            }
+            using (ShopDbDataContext db = new ShopDbDataContext())
+            {
+                orderViewModel.UserId = int.Parse(Session["userId"].ToString());
+                orderViewModel.User = db.ApplicationUsers.First(a => a.Id == orderViewModel.UserId);
+                orderViewModel.Address = orderViewModel.User.Address;
+                orderViewModel.Phone = orderViewModel.User.PhoneNumber;
+                orderViewModel.Price = cartViewModel.FinalSum;
+                orderViewModel.ProductsToBuy = cartViewModel.ProductsToBuy;
+            }
+            return View(orderViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Order(OrderViewModel orderViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                using (ShopDbDataContext db = new ShopDbDataContext())
+                {
+                    Orders newOrder = new Orders
+                    {
+                        UserId = orderViewModel.UserId,
+                        Address = orderViewModel.Address,
+                        Phone = orderViewModel.Phone,
+                        Price = orderViewModel.Price,
+                        DateOfOrder = DateTime.Now
+                    };
+                    db.Orders.InsertOnSubmit(newOrder);
+                    db.SubmitChanges();
+                    foreach (var product in orderViewModel.ProductsToBuy)
+                    {
+                        ProductOrders newProductOrder = new ProductOrders
+                        {
+                            OrderId = newOrder.Id,
+                            ProductId = int.Parse(product.Key),
+                            Quantity = int.Parse(product.Value)
+                        };
+                        db.ProductOrders.InsertOnSubmit(newProductOrder);
+                    }
+                    var cartToDelete = db.Carts.Where(c => c.UserId == orderViewModel.UserId);
+                    db.Carts.DeleteAllOnSubmit(cartToDelete);
+                    db.SubmitChanges();
+                }
+                return View("OrderDone");
+            }
+            else
+            {
+                return View(orderViewModel);
+            }
+        }
+
+        public PartialViewResult GetListOfCategoriesPartial()
         {
             using (ShopDbDataContext db = new ShopDbDataContext())
             {
@@ -254,7 +319,7 @@ namespace WebShop.Controllers
             }
         }
 
-        public ActionResult AddToCartPartial(int productId)
+        public PartialViewResult AddToCartPartial(int productId)
         {
             if (Session["userName"] != null)
             {

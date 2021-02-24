@@ -41,8 +41,8 @@
                 <input id="price" name="price" type="number" placeholder="До" />
                 for (int i = 0; i < Model.Attributes.Count(); i++)
                 {
-                    var currentAttributeValue = Model.AttributeValues.First(
-                        av => av.AttributeId == Model.Attributes.ElementAt(i).Id); // Берем объект значений атрибута для текущего атрибута
+                    var currentAttributeValue = Model.AttributeValues
+                                .First(av => av.AttributeId == Model.Attributes.ElementAt(i).Id); // Берем объект значений атрибута для текущего атрибута
                     if (int.TryParse(currentAttributeValue.Value, out _))  // Если это число, то берем стандартные "от" и "до"
                     {
                         <label>@Model.Attributes.ElementAt(i).Name</label>

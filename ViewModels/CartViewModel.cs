@@ -11,5 +11,7 @@ namespace WebShop.ViewModels
         public IEnumerable<Carts> Cart { get; set; }
         public IEnumerable<Products> Products { get; set; }
         public IEnumerable<Manufacturers> Manufacturers { get; set; }
+        public int FinalSum { get; set; }
+        public Dictionary<string, string> ProductsToBuy { get; set; }
     }
 }

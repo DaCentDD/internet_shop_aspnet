@@ -12,7 +12,17 @@ namespace WebShop.Controllers
     {
         public ActionResult Index(int? id)
         {
-            return View();
+            if (id == null || id != int.Parse(Session["userId"].ToString()))
+            {
+                return Redirect("/Shop/");
+            }
+            UserViewModel userViewModel = new UserViewModel();
+            using (ShopDbDataContext db = new ShopDbDataContext())
+            {
+                userViewModel.User = db.ApplicationUsers.First(u => u.Id == id);
+                userViewModel.Orders = db.Orders.Where(o => o.UserId == id).ToList();                 
+            }
+            return View(userViewModel);
         }
 
         [HttpGet]

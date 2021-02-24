@@ -65,8 +65,8 @@ textarea {
 }
 
     .product-button:hover {
-        width: 18em;
-        height: 18em;
+        width: 17.2em;
+        height: 17.2em;
     }
 
 
@@ -310,7 +310,7 @@ textarea {
     }
 
 .cart-div {
-    margin-left: -30%;
+    margin-left: -35%;
     background-color: white;
     padding: 5%;
 }
@@ -331,3 +331,92 @@ textarea {
         color: white;
         padding-left: 1%;
     }
+
+    .cart-div input {
+        color: white;
+        background-color: #222222;
+        border: none;
+    }
+
+.minus, .quantity, .plus {
+    display: inline;
+    background-color: #222222;
+    border: none;
+    color: white;
+    text-decoration: none;
+    width: 30%;
+    text-align: center;
+}
+
+#final-sum {
+    width: 50%;
+}
+
+.order-div {
+    margin-left: -10%;
+    width: 60%;
+}
+
+    .order-div input {
+        max-width: 100%;
+    }
+
+.order-and-price {
+    display: inline;
+}
+
+#price-final {
+    float: right;
+    background-color: white;
+    color: #222222;
+    font-size: 2em;
+    border-radius: 10px;
+    padding: 1%;
+}
+
+.order-done {
+    margin-top: 20%;
+    color: white;
+    font-size: 2em;
+    margin-left: -20%;
+}
+
+    .order-done btn-primary {
+        width: 20%;
+        margin-left: 20%;
+    }
+
+.user-div {
+    margin-left: -20%;
+}
+
+.user-div table {
+    width: 80%;
+    font-size: 1.8em;
+    border-collapse: collapse;
+    border-radius: 10px;
+    border-style: hidden;
+}
+
+.user-div td {
+    height: 50px;
+    background-color: white;
+    border: 5px solid #222222;
+    border-radius: 10px;
+    color: #222222;
+    padding-left: 1%;
+}
+
+.btn-to-order {
+    background-color: transparent;
+    font-size: 1em;
+    color: #222222;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+.btn-to-order:hover {
+    font-size:0.95em;
+}

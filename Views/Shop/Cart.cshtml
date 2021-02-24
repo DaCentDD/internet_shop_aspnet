@@ -15,22 +15,75 @@
             <td>Цена</td>
             <td>Сумма</td>
         </tr>
-
         @{
-            foreach (var product in Model.Products)
+            using (Html.BeginForm("Order", "Shop", FormMethod.Get, new { id = "cart-form"}))
             {
+                double finalPrice = 0d;
+                foreach (var product in Model.Products)
+                {
+                    <tr class="count">
+                        <td>@Model.Manufacturers.First(m => m.Id == product.ManufacturerId).Name</td>
+                        <td>@product.Name</td>
+                        <td style="text-align: center; width:20%;">
+                            <a class="minus btn">-</a>
+                            <input class="quantity" type="number" name="ProductsToBuy[@product.Id.ToString()]" value="@Model.Cart.First(c => c.ProductId == product.Id).Quantity.ToString()" />
+                            <a class="plus btn">+</a>
+
+                        </td>
+                        <td><div class="price">@product.Price</div></td>
+                        @{
+                            var sum = product.Price * Model.Cart.First(c => c.ProductId == product.Id).Quantity;
+                            finalPrice += sum;
+                        }
+                        <td><div class="sum">@sum</div></td>
+                    </tr>
+                }
                 <tr>
-                    <td>@Model.Manufacturers.First(m => m.Id == product.ManufacturerId).Name</td>
-                    <td>@product.Name</td>
-                    <td>@Model.Cart.First(c => c.ProductId == product.Id).Quantity</td>
-                    <td>@product.Price</td>
-                    @{ 
-                        var sum = product.Price * Model.Cart.First(c => c.ProductId == product.Id).Quantity;
-                    }
-                    <td>@sum</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Всего:</td>
+                    <td><input id="final-sum" type="number" name="FinalSum" value="@finalPrice" readonly/></td>
                 </tr>
             }
         }
     </table>
+    <button type="submit" form="cart-form" class="btn btn-primary" style="float: right;">Оформить заказ</button>
 </div>
 
+<script>
+    function addHandlers(count) {
+        var minus = count.querySelector(".minus");
+        var quantity = count.querySelector(".quantity");
+        var plus = count.querySelector(".plus");
+        var price = count.querySelector(".price")
+        var sum = count.querySelector(".sum");
+        plus.addEventListener("click", function () {
+            quantity.value++;
+            setSum(price, quantity, sum);
+            setFinalSum();
+        });
+        minus.addEventListener("click", function () {
+            if (quantity.value > 0) {
+                quantity.value--;
+                setSum(price, quantity, sum);
+                setFinalSum();
+            }                    
+        });
+    }
+
+    function setSum(price, quantity, sum) {
+        sum.innerText = (price.innerText * quantity.value)
+    }
+
+    function setFinalSum() {
+        var finalSum = document.getElementById("final-sum");
+        finalSum.value = 0;
+        var sums = document.querySelectorAll(".sum");
+        for (let i = 0; i < sums.length; i++) {
+            finalSum.value = Number(finalSum.value) + Number(sums[i].innerText);
+        }
+    }
+    var counts = document.querySelectorAll(".count");
+    counts.forEach(addHandlers);
+</script>
