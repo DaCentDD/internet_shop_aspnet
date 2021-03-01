@@ -1,0 +1,68 @@
+﻿@model WebShop.ViewModels.RegisterUserViewModel
+
+@{
+    ViewBag.Title = "Добавить пользователя";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, null, FormMethod.Post, new { @class = "auth-fields" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="auth-element">
+        Имя пользователя*
+        <div>
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+    </div>
+    <div class="auth-element">
+        Пароль*
+        <div>
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+    </div>
+    <div class="auth-element">
+        Повторите пароль*
+        <div>
+            @Html.EditorFor(model => model.PasswordConfirm, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PasswordConfirm)
+        </div>
+    </div>
+    <div class="auth-element">
+        Электронная почта*
+        <div>
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+    </div>
+    <div class="auth-element">
+        Номер телефона*
+        <div>
+            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PhoneNumber)
+        </div>
+    </div>
+    <div class="auth-element">
+        Адрес доставки*
+        <div>
+            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Address)
+        </div>
+    </div>
+    <div class="auth-element">
+        Администратор*
+        <div class="radio-view">
+            @Html.RadioButtonFor(model => model.IsAdmin, true, new { htmlAttributes = new { @class = "form-control" } }) @Html.Label("Да")
+            <br />
+            @Html.RadioButtonFor(model => model.IsAdmin, false, new { @checked = "checked", htmlAttributes = new { @class = "form-control" } }) @Html.Label("Нет")
+        </div>
+    </div>
+    <div class="auth-element">
+        <div>
+            <input type="submit" value="Зарегистрировать" class="btn btn-primary" />
+        </div>
+    </div>
+}
+

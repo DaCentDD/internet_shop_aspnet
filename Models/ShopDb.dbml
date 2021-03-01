@@ -26,7 +26,7 @@
       <Column Name="CategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Association Name="Attributes_AttributeValues" Member="AttributeValues" ThisKey="Id" OtherKey="AttributeId" Type="AttributeValues" />
-      <Association Name="Categories_Attributes" Member="Categories" ThisKey="CategoryId" OtherKey="Id" Type="Categories" IsForeignKey="true" />
+      <Association Name="Categories_Attributes" Member="Categories" ThisKey="CategoryId" OtherKey="Id" Type="Categories" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
   <Table Name="dbo.AttributeValues" Member="AttributeValues">
@@ -35,8 +35,8 @@
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AttributeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="Attributes_AttributeValues" Member="Attributes" ThisKey="AttributeId" OtherKey="Id" Type="Attributes" IsForeignKey="true" />
-      <Association Name="Products_AttributeValues" Member="Products" ThisKey="ProductId" OtherKey="Id" Type="Products" IsForeignKey="true" />
+      <Association Name="Attributes_AttributeValues" Member="Attributes" ThisKey="AttributeId" OtherKey="Id" Type="Attributes" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Products_AttributeValues" Member="Products" ThisKey="ProductId" OtherKey="Id" Type="Products" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Carts" Member="Carts">
@@ -45,8 +45,8 @@
       <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="ApplicationUsers_Carts" Member="ApplicationUsers" ThisKey="UserId" OtherKey="Id" Type="ApplicationUsers" IsForeignKey="true" />
-      <Association Name="Products_Carts" Member="Products" ThisKey="ProductId" OtherKey="Id" Type="Products" IsForeignKey="true" />
+      <Association Name="ApplicationUsers_Carts" Member="ApplicationUsers" ThisKey="UserId" OtherKey="Id" Type="ApplicationUsers" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Products_Carts" Member="Products" ThisKey="ProductId" OtherKey="Id" Type="Products" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Categories" Member="Categories">
@@ -73,7 +73,7 @@
       <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="DateOfOrder" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Orders_ProductOrders" Member="ProductOrders" ThisKey="Id" OtherKey="OrderId" Type="ProductOrders" />
-      <Association Name="ApplicationUsers_Orders" Member="ApplicationUsers" ThisKey="UserId" OtherKey="Id" Type="ApplicationUsers" IsForeignKey="true" />
+      <Association Name="ApplicationUsers_Orders" Member="ApplicationUsers" ThisKey="UserId" OtherKey="Id" Type="ApplicationUsers" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.ProductOrders" Member="ProductOrders">
@@ -82,23 +82,23 @@
       <Column Name="OrderId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ProductId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Orders_ProductOrders" Member="Orders" ThisKey="OrderId" OtherKey="Id" Type="Orders" IsForeignKey="true" />
-      <Association Name="Products_ProductOrders" Member="Products" ThisKey="ProductId" OtherKey="Id" Type="Products" IsForeignKey="true" />
+      <Association Name="Orders_ProductOrders" Member="Orders" ThisKey="OrderId" OtherKey="Id" Type="Orders" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Products_ProductOrders" Member="Products" ThisKey="ProductId" OtherKey="Id" Type="Products" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Products" Member="Products">
     <Type Name="Products">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="CategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ManufacturerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ManufacturerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="Price" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="Image" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Association Name="Products_AttributeValues" Member="AttributeValues" ThisKey="Id" OtherKey="ProductId" Type="AttributeValues" />
       <Association Name="Products_Carts" Member="Carts" ThisKey="Id" OtherKey="ProductId" Type="Carts" />
       <Association Name="Products_ProductOrders" Member="ProductOrders" ThisKey="Id" OtherKey="ProductId" Type="ProductOrders" />
-      <Association Name="Categories_Products" Member="Categories" ThisKey="CategoryId" OtherKey="Id" Type="Categories" IsForeignKey="true" />
-      <Association Name="Manufacturers_Products" Member="Manufacturers" ThisKey="ManufacturerId" OtherKey="Id" Type="Manufacturers" IsForeignKey="true" />
+      <Association Name="Categories_Products" Member="Categories" ThisKey="CategoryId" OtherKey="Id" Type="Categories" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Manufacturers_Products" Member="Manufacturers" ThisKey="ManufacturerId" OtherKey="Id" Type="Manufacturers" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
 </Database>

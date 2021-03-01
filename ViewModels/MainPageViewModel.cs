@@ -14,10 +14,11 @@ namespace WebShop.ViewModels
         public IEnumerable<AttributeValues> AttributeValues { get; set; }
         public IEnumerable<Manufacturers> Manufacturers { get; set; }
 
-        public string GetManufacturer(int ManufacturerId)
+        public string GetManufacturer(int? ManufacturerId)
         {
+            if (ManufacturerId == null)
+                return "Неизвестно";
             return Manufacturers.First(m => m.Id == ManufacturerId).Name;
-
         }
     }
 }

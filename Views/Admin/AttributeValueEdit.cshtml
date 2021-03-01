@@ -1,0 +1,56 @@
+﻿@model WebShop.ViewModels.ProductViewModel
+
+@{
+    ViewBag.Title = "Свойства";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="filter-bar">
+    <div class="product-attrs">
+        Производитель:
+        @Model.Manufacturer.Name
+    </div>
+    <div class="product-attrs">
+        Наименование:
+        @Model.Product.Name
+    </div>
+    <div class="product-attrs">
+        Категория:
+        @Model.Category.Name
+    </div>
+    <div class="product-attrs">
+        <div class="product-attrs">
+            Характеристики:
+            <br />
+            <br />
+            @{
+                using (Html.BeginForm(null, null, FormMethod.Post))
+                {
+                    @Html.Hidden("productId", Model.Product.Id)
+                    foreach (var attr in Model.Attributes)
+                    {
+                        <pre>@attr.Name:  <input type="text" class="form-control" name="AttributeValuesDict[@attr.Id]" 
+                                                 value="@Model.AttributeValues.First(av => av.AttributeId == attr.Id).Value"/></pre>
+                        <br />
+                    }
+                    <input type="submit" class="btn btn-primary" value="Сохранить" />
+                }
+
+            }
+
+
+        </div>
+
+
+    </div>
+</div>
+<div class="product">
+    <img src="@Url.Content($"~/Content/Img/{Model.Product.Image}")" />
+    <div class="price-and-carts">
+        <div style="font-size: 2em; margin-bottom: 20%; float: right;">
+            @Model.Product.Price руб.
+        </div>
+    </div>
+</div>
+
+

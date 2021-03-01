@@ -13,6 +13,7 @@ namespace WebShop.ViewModels
         public Categories Category { get; set; }
         public IEnumerable<Attributes> Attributes { get; set; }
         public IEnumerable<AttributeValues> AttributeValues { get; set; }
+        
 
     }
 }

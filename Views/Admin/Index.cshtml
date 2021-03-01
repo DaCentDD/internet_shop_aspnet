@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Администратор";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="admin-div">
+    <div class="admin-action">
+        <ul class="nav navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bars" aria-hidden="true"></i> Управление пользователями
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    @{
+                        @Html.RouteLink("Добавить пользователя", "UserAddRoute")
+                        <br />
+                        @Html.RouteLink("Изменить пользователя", "UserEditRoute")
+                        <br />
+                        @Html.RouteLink("Удалить пользователя", "UserDeleteRoute")
+                        <br />
+                    }
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="admin-action">
+        <ul class="nav navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bars" aria-hidden="true"></i> Управление товарами
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    @{
+                        @Html.RouteLink("Категории", "CategoryEditRoute")
+                        <br />
+                        @Html.RouteLink("Атрибуты", "AttributeEditRoute")
+                        <br />
+                        @Html.RouteLink("Производители", "ManufacturerEditRoute")
+                        <br />
+                        @Html.RouteLink("Товары", "ProductEditRoute")
+                        <br />
+                    }
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+

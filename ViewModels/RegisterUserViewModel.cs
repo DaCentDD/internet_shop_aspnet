@@ -11,6 +11,8 @@ namespace WebShop.ViewModels
 {
     public class RegisterUserViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 50 символов")]
         public string UserName { get; set; }
@@ -39,6 +41,8 @@ namespace WebShop.ViewModels
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 50 символов")]
         public string Address { get; set; }
 
+        [Required(ErrorMessage = "Поле обязательно для заполнения")]
+        public bool IsAdmin { get; set; } = false;
         public List<string> Validate(ShopDbDataContext db)
         {
             List<string> errors = new List<string>();

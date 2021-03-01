@@ -420,3 +420,26 @@ textarea {
 .btn-to-order:hover {
     font-size:0.95em;
 }
+
+.radio-view input {
+    width: auto;
+}
+
+.admin-action {
+    margin-top: 5%;
+}
+
+.admin-action a {
+    color: white;
+}
+
+.admin-div {
+    float: left;
+    font-size: 2em;
+    margin-top: 10%;
+}
+
+.admin-div li {
+    margin-bottom: 10%;
+}
+

@@ -657,7 +657,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Categories_Attributes", Storage="_Categories", ThisKey="CategoryId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Categories_Attributes", Storage="_Categories", ThisKey="CategoryId", OtherKey="Id", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Categories Categories
 		{
 			get
@@ -851,7 +851,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attributes_AttributeValues", Storage="_Attributes", ThisKey="AttributeId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Attributes_AttributeValues", Storage="_Attributes", ThisKey="AttributeId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Attributes Attributes
 		{
 			get
@@ -885,7 +885,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_AttributeValues", Storage="_Products", ThisKey="ProductId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_AttributeValues", Storage="_Products", ThisKey="ProductId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Products Products
 		{
 			get
@@ -1067,7 +1067,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ApplicationUsers_Carts", Storage="_ApplicationUsers", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ApplicationUsers_Carts", Storage="_ApplicationUsers", ThisKey="UserId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public ApplicationUsers ApplicationUsers
 		{
 			get
@@ -1101,7 +1101,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_Carts", Storage="_Products", ThisKey="ProductId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_Carts", Storage="_Products", ThisKey="ProductId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Products Products
 		{
 			get
@@ -1596,7 +1596,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ApplicationUsers_Orders", Storage="_ApplicationUsers", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ApplicationUsers_Orders", Storage="_ApplicationUsers", ThisKey="UserId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public ApplicationUsers ApplicationUsers
 		{
 			get
@@ -1790,7 +1790,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Orders_ProductOrders", Storage="_Orders", ThisKey="OrderId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Orders_ProductOrders", Storage="_Orders", ThisKey="OrderId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Orders Orders
 		{
 			get
@@ -1824,7 +1824,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_ProductOrders", Storage="_Products", ThisKey="ProductId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Products_ProductOrders", Storage="_Products", ThisKey="ProductId", OtherKey="Id", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public Products Products
 		{
 			get
@@ -1889,7 +1889,7 @@ namespace WebShop.Models
 		
 		private System.Nullable<int> _CategoryId;
 		
-		private int _ManufacturerId;
+		private System.Nullable<int> _ManufacturerId;
 		
 		private string _Name;
 		
@@ -1915,7 +1915,7 @@ namespace WebShop.Models
     partial void OnIdChanged();
     partial void OnCategoryIdChanging(System.Nullable<int> value);
     partial void OnCategoryIdChanged();
-    partial void OnManufacturerIdChanging(int value);
+    partial void OnManufacturerIdChanging(System.Nullable<int> value);
     partial void OnManufacturerIdChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
@@ -1979,8 +1979,8 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ManufacturerId", DbType="Int NOT NULL")]
-		public int ManufacturerId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ManufacturerId", DbType="Int")]
+		public System.Nullable<int> ManufacturerId
 		{
 			get
 			{
@@ -2102,7 +2102,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Categories_Products", Storage="_Categories", ThisKey="CategoryId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Categories_Products", Storage="_Categories", ThisKey="CategoryId", OtherKey="Id", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Categories Categories
 		{
 			get
@@ -2136,7 +2136,7 @@ namespace WebShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Manufacturers_Products", Storage="_Manufacturers", ThisKey="ManufacturerId", OtherKey="Id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Manufacturers_Products", Storage="_Manufacturers", ThisKey="ManufacturerId", OtherKey="Id", IsForeignKey=true, DeleteRule="SET NULL")]
 		public Manufacturers Manufacturers
 		{
 			get
@@ -2163,7 +2163,7 @@ namespace WebShop.Models
 					}
 					else
 					{
-						this._ManufacturerId = default(int);
+						this._ManufacturerId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Manufacturers");
 				}

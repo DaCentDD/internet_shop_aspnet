@@ -44,6 +44,9 @@ namespace WebShop.Controllers
                     {
                         Session["userName"] = user.UserName;
                         Session["userId"] = user.Id;
+                        Session["isAdmin"] = user.IsAdmin;
+                        if (user.IsAdmin)
+                            return Redirect("/admin/");
                         return Redirect("/shop/index/");
                     }                   
                 }
@@ -57,6 +60,7 @@ namespace WebShop.Controllers
         {
             Session["userName"] = null;
             Session["userId"] = null;
+            Session["isAdmin"] = null;
             return Redirect("/account/login/");
         }
 

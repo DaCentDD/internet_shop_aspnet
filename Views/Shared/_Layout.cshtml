@@ -41,6 +41,10 @@
                         }
                         else
                         {
+                            if (Session["isAdmin"].ToString() == true.ToString())
+                            {
+                                <li>@Html.ActionLink("Администратор", "Index", "Admin")</li>
+                            }
                             <li>@Html.ActionLink((string)Session["userName"], "Index", "Account", new { id = Session["userId"] }, null)</li>
                             <li>
                                 <a href="/Shop/Cart/">

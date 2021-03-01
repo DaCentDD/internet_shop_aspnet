@@ -38,7 +38,7 @@
                         <td>@order.Id.ToString()</td>
                         <td>@order.Price.ToString()</td>
                         <td>@order.DateOfOrder.ToString()</td>
-                        <td>@Html.ActionLink("Перейти", "Order", "Shop", new { id = order.Id }, new { @class = "btn btn-to-order" })</td>
+                        <td>@Html.ActionLink("Перейти", "OrderDetails", "Shop", new { id = order.Id }, new { @class = "btn btn-to-order" })</td>
                     </tr>
                 }
             }

@@ -1,0 +1,56 @@
+﻿@model WebShop.ViewModels.OrderViewModel
+
+@{
+    ViewBag.Title = $"Заказ №{Model.Order.Id}";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="user-div">
+    <table>
+        <caption>Заказ №@Model.Order.Id</caption>
+        <tr>
+            <td>Адрес доставки</td>
+            <td>@Model.Order.Address</td>
+        </tr>
+        <tr>
+            <td>Номер телефона</td>
+            <td>@Model.Order.Phone</td>
+        </tr>
+        <tr>
+            <td>Дата заказа</td>
+            <td>@Model.Order.DateOfOrder</td>
+        </tr>
+        <tr>
+            <td>Общая сумма</td>
+            <td>@Model.Order.Price</td>
+        </tr>
+    </table>
+    <table>
+        <caption>Заказанные товары</caption>
+        <tr>
+            <td>Производитель</td>
+            <td>Наименование</td>
+            <td>Цена</td>
+            <td>Количество</td>
+            <td>Сумма</td>
+            <td></td>
+        </tr>
+        @{
+            foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@Model.Manufacturers.First(m => m.Id == product.ManufacturerId).Name</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@Model.ProductOrders.First(po => po.ProductId == product.Id).Quantity</td>
+                    @{
+                        var sum = product.Price * @Model.ProductOrders.First(po => po.ProductId == product.Id).Quantity;
+                    }
+                    <td>@sum</td>
+                    <td>@Html.ActionLink("Перейти", "Product", "Shop", new { id = product.Id }, new { @class = "btn btn-to-order" })</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+

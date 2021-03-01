@@ -1,0 +1,232 @@
+﻿@model List<WebShop.ViewModels.ProductViewModel>
+
+@{
+    ViewBag.Title = "Продукты";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="user-div" style="margin-left: -30%;">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>
+                    ID
+                </td>
+                <td>
+                    Производитель
+                </td>
+                <td>
+                    Наименование
+                </td>
+                <td>
+                    Категория
+                </td>
+                <td>
+                    Цена
+                </td>
+                <td>
+                    Изображение
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Product.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Manufacturer.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Product.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Category.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Product.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Product.Image)
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-primary"
+                                data-toggle="modal"
+                                data-target="#editModal"
+                                data-id="@Model[i].Product.Id"
+                                data-manufacturer="@Model[i].Manufacturer.Id"
+                                data-name="@Model[i].Product.Name"
+                                data-category="@Model[i].Category.Id"
+                                data-price="@Model[i].Product.Price"
+                                data-image="@Model[i].Product.Image">
+                            Редактировать
+                        </button>
+                    </td>
+                    <td>
+                        @using (Html.BeginRouteForm("ProductDeleteRoute", FormMethod.Post))
+                        {
+                            @Html.Hidden("id", Model[i].Product.Id)
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('Удалить продукт?')">Удалить</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#createModal">
+        Добавить
+    </button>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        @*Редактирование*@
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Редактировать</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" id="recipient-id" name="Id" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-manufacturer" class="col-form-label">Производитель:</label>
+                        <select id="recipient-manufacturer" name="ManufacturerId">
+                            @{
+                                foreach (var manufacturer in ViewBag.Manufacturers)
+                                {
+                                    <option value="@manufacturer.Id">@manufacturer.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Наименование:</label>
+                        <input type="text" class="form-control" id="recipient-name" name="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-category" class="col-form-label">Категория:</label>
+                        <select id="recipient-category" name="CategoryId">
+                            @{
+                                foreach (var category in ViewBag.Categories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-price" class="col-form-label">Цена:</label>
+                        <input type="text" class="form-control" id="recipient-price" name="Price">
+                    </div>
+                    <div class="form-group">
+                        <label for="Image" class="col-form-label">Image</label>
+                        <input type="file" id="recipient-image" name="Image" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <input type="submit" class="btn btn-primary" value="Сохранить" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Добавить</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/product/create/" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-manufacturer" class="col-form-label">Производитель:</label>
+                        <select id="recipient-manufacturer" name="ManufacturerId">
+                            @{
+                                foreach (var manufacturer in ViewBag.Manufacturers)
+                                {
+                                    <option value="@manufacturer.Id">@manufacturer.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Наименование:</label>
+                        <input type="text" class="form-control" id="recipient-name" name="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-category" class="col-form-label">Категория:</label>
+                        <select id="recipient-category" name="CategoryId">
+                            @{
+                                foreach (var category in ViewBag.Categories)
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-price" class="col-form-label">Цена:</label>
+                        <input type="text" class="form-control" id="recipient-price" name="Price">
+                    </div>
+                    <div class="form-group">
+                        <label for="Image" class="col-form-label">Image</label>
+                        <input type="file" id="recipient-image" name="Image" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <input type="submit" class="btn btn-primary" value="Сохранить" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var manufacturer = button.data('manufacturer');
+            var name = button.data('name');
+            var category = button.data('category');
+            var price = button.data('price');
+            var modal = $(this);
+            modal.find('.modal-body input[name="Id"]').val(id);
+            modal.find('.modal-body select[name="ManufacturerId"]').val(manufacturer);
+            modal.find('.modal-body input[name="Name"]').val(name);
+            modal.find('.modal-body select[name="CategoryId"]').val(category);
+            modal.find('.modal-body input[name="Price"]').val(price);
+        });
+    </script>
+}
+
+
+
+
+

@@ -1,0 +1,133 @@
+﻿@model List<WebShop.Models.Categories>
+
+@{
+    ViewBag.Title = "Категории";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="user-div" style="margin-left: -35%;">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>
+                    ID
+                </td>
+                <td>
+                    Наименование
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Name)
+                    </td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-primary"
+                                data-toggle="modal"
+                                data-target="#editModal"
+                                data-id="@Model[i].Id"
+                                data-name="@Model[i].Name">
+                            Редактировать
+                        </button>
+                    </td>
+                    <td>
+                        @using (Html.BeginRouteForm("CategoryDeleteRoute", FormMethod.Post))
+                        {
+                            @Html.Hidden("id" , @Model[i].Id)
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('Удалить категорию?')">Удалить</button>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#createModal">
+        Добавить
+    </button>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            @*Редактирование*@
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" id="recipient-id" name="Id" readonly />
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Наименование:</label>
+                            <input type="text" class="form-control" id="recipient-name" name="Name">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <input type="submit" class="btn btn-primary" value="Сохранить" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Добавить</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/category/create/" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Наименование:</label>
+                        <input type="text" class="form-control" id="recipient-name" name="Name">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <input type="submit" class="btn btn-primary" value="Сохранить" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var name = button.data('name');
+            var modal = $(this);
+            modal.find('.modal-body input[name="Id"]').val(id);
+            modal.find('.modal-body input[name="Name"]').val(name);
+        });
+    </script>
+}
+

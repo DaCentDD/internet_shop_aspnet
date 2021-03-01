@@ -76,13 +76,13 @@ namespace WebShop.Controllers
 
             return View(mainPageViewModel);
         }
-        public ActionResult Category(int? id, string search, string[] manufacturers, string order = "byName", params string[][] attrs)  // Страница категории
+        public ActionResult Category(int? id, string search, string[] manufacturers, string order = "byName")  // Страница категории
         {
             if (id == null)
                 return Redirect("/Shop/Index");
             var queryStringKeys = Request.QueryString.Keys;
             Dictionary<int, string[]> attributeValuesDict = new Dictionary<int, string[]>();
-            foreach (var key in queryStringKeys)  // Собираем ве значения атрибутов для фильтрации в словарь
+            foreach (var key in queryStringKeys)  // Собираем вcе значения атрибутов для фильтрации в словарь
             {
                 if (int.TryParse(key.ToString(), out int attrId))  // Если ключ это Id атрибута
                 {
@@ -233,20 +233,27 @@ namespace WebShop.Controllers
                 if (Session["userId"] == null)
                     return Redirect("/Account/Login/");
                 cartViewModel.Cart = db.Carts.Where(c => c.UserId == (int)Session["userId"]).ToList();
-                List<int> productsInCart = new List<int>();
-                foreach (var cart in cartViewModel.Cart)
-                {
-                    productsInCart.Add(cart.ProductId);
-                }
-                cartViewModel.Products = db.Products.Where(p => productsInCart.Contains(p.Id)).ToList();
-                cartViewModel.Manufacturers = db.Manufacturers.ToList();
+                var productsId = cartViewModel.Cart.Select(c => c.ProductId).ToList();
+                cartViewModel.Products = db.Products.Where(p => productsId.Contains(p.Id)).ToList();
+                var manufId = cartViewModel.Products.Select(p => p.ManufacturerId).ToList();
+                cartViewModel.Manufacturers = db.Manufacturers.Where(m => manufId.Contains(m.Id)).ToList();
             }
             return View(cartViewModel);
         }
 
-        public ActionResult Order(int? id) //TODO
+        public ActionResult OrderDetails(int? id)
         {
-            return View();
+            OrderViewModel orderViewModel = new OrderViewModel();
+            using (ShopDbDataContext db = new ShopDbDataContext())
+            {
+                orderViewModel.Order = db.Orders.First(o => o.Id == id);
+                orderViewModel.ProductOrders = db.ProductOrders.Where(po => po.OrderId == id).ToList();
+                var productsId = orderViewModel.ProductOrders.Select(po => po.ProductId).ToList();
+                orderViewModel.Products = db.Products.Where(p => productsId.Contains(p.Id)).ToList();
+                var manufId = orderViewModel.Products.Select(p => p.ManufacturerId).ToList();
+                orderViewModel.Manufacturers = db.Manufacturers.Where(m => manufId.Contains(m.Id)).ToList();
+            }
+            return View(orderViewModel);
         }
 
         [HttpGet]

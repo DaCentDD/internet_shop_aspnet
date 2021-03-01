@@ -1,0 +1,63 @@
+﻿@model List<WebShop.Models.ApplicationUsers>
+
+@{
+    ViewBag.Title = "Удалить";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="user-div" style="margin-left: -30%;">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>
+                    Имя пользователя
+                </td>
+                <td>
+                    Email
+                </td>
+                <td>
+                    Номер телефона
+                </td>
+                <td>
+                    Адрес
+                </td>
+                <td>
+                    Администратор
+                </td>
+                <td>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(modelItem => Model[i].Id)
+                        @Html.DisplayFor(modelItem => Model[i].UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].IsAdmin)
+                    </td>
+                    <td>
+                        @using (Html.BeginForm(null, null, FormMethod.Post))
+                        {
+                            @Html.Hidden("id", Model[i].Id.ToString())
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('Удалить пользователя?')">Удалить</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

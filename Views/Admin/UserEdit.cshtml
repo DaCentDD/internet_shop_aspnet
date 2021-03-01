@@ -1,0 +1,141 @@
+﻿@model List<WebShop.Models.ApplicationUsers>
+
+@{
+    ViewBag.Title = "Редактировать";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="user-div" style="margin-left: -35%;">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>
+                    Имя пользователя
+                </td>
+                <td>
+                    Email
+                </td>
+                <td>
+                    Номер телефона
+                </td>
+                <td>
+                    Адрес
+                </td>
+                <td>
+                    Администратор
+                </td>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelItem => Model[i].Id)
+                    @Html.DisplayFor(modelItem => Model[i].UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model[i].IsAdmin)
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-primary"
+                            data-toggle="modal"
+                            data-target="#editModal"
+                            data-id="@Model[i].Id"
+                            data-username="@Model[i].UserName"
+                            data-email="@Model[i].Email"
+                            data-number="@Model[i].PhoneNumber"
+                            data-address="@Model[i].Address"
+                            data-isadmin="@Model[i].IsAdmin">
+                        Редактировать
+                    </button>
+                </td>
+                <td>
+                    <a href="/user/edit/password/@Model[i].Id" class="btn btn-primary">Сменить пароль</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Редактировать</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="recipient-firstname" class="col-form-label">Имя пользователя:</label>
+                            <input type="text" class="form-control" id="recipient-username" name="Username">
+                            <input type="hidden" id="recipient-id" name="Id" />
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-email" class="col-form-label">Email:</label>
+                            <input type="text" class="form-control" id="recipient-email" name="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-number" class="col-form-label">Номер телефона:</label>
+                            <input type="text" class="form-control" id="recipient-number" name="PhoneNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-address" class="col-form-label">Адрес:</label>
+                            <input type="text" class="form-control" id="recipient-address" name="Address">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-isadmin" class="col-form-label">Админ:</label>
+                            <input type="radio"  id="recipient-isadmin" name="IsAdmin" value=true> @Html.Label("Да")
+                            <input type="radio"  id="recipient-isadmin" name="IsAdmin" value=false>@Html.Label("Нет")
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                        <input type="submit" class="btn btn-primary" value="Сохранить" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var name = button.data('username');
+            var email = button.data('email');
+            var phone = button.data('number');
+            var address = button.data('address');
+            var modal = $(this);
+            modal.find('.modal-body input[name="Id"]').val(id);
+            modal.find('.modal-body input[name="Username"]').val(name);
+            modal.find('.modal-body input[name="Email"]').val(email);
+            modal.find('.modal-body input[name="PhoneNumber"]').val(phone);
+            modal.find('.modal-body input[name="Address"]').val(address);
+        });
+    </script>
+}
+

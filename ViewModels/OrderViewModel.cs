@@ -9,6 +9,7 @@ namespace WebShop.ViewModels
 {
     public class OrderViewModel
     {
+        // Для оформления
         public int UserId { get; set; }
         public ApplicationUsers User { get; set; }
 
@@ -26,5 +27,12 @@ namespace WebShop.ViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: dd/MM/yyyy/mm/HH}")]
         public DateTime DateOfOrder { get; set; }
         public Dictionary<string, string> ProductsToBuy { get; set; }
+
+        // Для отображения деталей
+
+        public Orders Order { get; set; }
+        public IEnumerable<ProductOrders> ProductOrders { get; set; }
+        public IEnumerable<Products> Products { get; set; }
+        public IEnumerable<Manufacturers> Manufacturers { get; set; }
     }
 }
